@@ -149,14 +149,14 @@ module Isuconp
     end
 
     get '/login' do
-      if get_session_user()
+      if session[:user]
         redirect '/', 302
       end
       erb :login, layout: :layout, locals: { me: nil }
     end
 
     post '/login' do
-      if get_session_user()
+      if session[:user]
         redirect '/', 302
       end
 
@@ -174,14 +174,14 @@ module Isuconp
     end
 
     get '/register' do
-      if get_session_user()
+      if session[:user]
         redirect '/', 302
       end
       erb :register, layout: :layout, locals: { me: nil }
     end
 
     post '/register' do
-      if get_session_user()
+      if session[:user]
         redirect '/', 302
       end
 
