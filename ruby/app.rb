@@ -76,7 +76,7 @@ module Isuconp
       end
 
       def digest(src)
-        Digest::SHA512.digest(src)
+        Digest::SHA512.hexdigest(src)
       end
 
       def calculate_salt(account_name)
