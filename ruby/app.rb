@@ -363,9 +363,7 @@ module Isuconp
     end
 
     post '/comment' do
-      me = get_session_user()
-
-      if me.nil?
+      if session[:user].nil?
         redirect '/login', 302
       end
 
@@ -381,7 +379,7 @@ module Isuconp
       query = 'INSERT INTO `comments` (`post_id`, `user_id`, `comment`) VALUES (?,?,?)'
       db.prepare(query).execute(
         post_id,
-        me[:id],
+        session[:user][:id],
         params['comment']
       )
 
