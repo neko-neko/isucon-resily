@@ -320,15 +320,23 @@ module Isuconp
           redirect '/', 302
         end
 
+        ext = '.jpg'
+        if mime == "image/png"
+          ext = '.png'
+        elsif mime == 'image/gif'
+          ext = '.gif'
+        end
+
         params['file'][:tempfile].rewind
         query = 'INSERT INTO `posts` (`user_id`, `mime`, `imgdata`, `body`) VALUES (?,?,?,?)'
         db.prepare(query).execute(
           me[:id],
           mime,
-          params["file"][:tempfile].read,
+          ''.bytes,
           params["body"],
         )
         pid = db.last_id
+        File.open("../public/image/#{pid}#{ext}", 'wb') {|f| f.write(params["file"][:tempfile].read) }
 
         redirect "/posts/#{pid}", 302
       else
