@@ -89,9 +89,7 @@ module Isuconp
 
       def get_session_user()
         if session[:user]
-          db.prepare('SELECT * FROM `users` WHERE `id` = ?').execute(
-            session[:user][:id]
-          ).first
+          session[:user]
         else
           nil
         end
@@ -163,7 +161,9 @@ module Isuconp
       user = try_login(params['account_name'], params['password'])
       if user
         session[:user] = {
-          id: user[:id]
+          id: user[:id],
+          account_name: user[:account_name],
+          authority: user[:authority],
         }
         session[:csrf_token] = SecureRandom.hex(16)
         redirect '/', 302
@@ -209,7 +209,9 @@ module Isuconp
       )
 
       session[:user] = {
-        id: db.last_id
+        id: db.last_id,
+        account_name: account_name,
+        authority: 0,
       }
       session[:csrf_token] = SecureRandom.hex(16)
       redirect '/', 302
