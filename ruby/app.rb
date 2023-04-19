@@ -30,8 +30,7 @@ module Isuconp
       def db
         return Thread.current[:isuconp_db] if Thread.current[:isuconp_db]
         client = Mysql2::Client.new(
-          host: config[:db][:host],
-          port: config[:db][:port],
+          socket: '/var/run/mysqld/mysqld.sock',
           username: config[:db][:username],
           password: config[:db][:password],
           database: config[:db][:database],
